@@ -14,7 +14,7 @@
 			</h2>
 		</div>
 		<div class="loginCenter">
-			<form action="/member/login" method="get" name="loginForm">
+			<form action="${context}/member/login" method="get" name="loginForm">
 				<fieldset class="loginField">
 					<div class="input_row">
 						<span class="input_box">

@@ -41,13 +41,14 @@ public class MemberServiceImpl implements MemberService {
 		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class); 
 		member= mapper.selectMember(member);
 		System.out.println("서비스단 " + member.getName());
+		return member;
 		/*String result = "로그인 실패";
 		// 메소드 체인 기법
 
 		if (map.containsKey(id)) { // 맵에 id가 존재하는 지를 먼저 체크한다.
 			result = ((map.get(id)).getPassword().equals(password) ? "로그인 성공" : "로그인 실패");
 		}*/
-		return member;
+		
 	}
 
 	public String update(MemberVO member) {
@@ -72,11 +73,11 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public String join(MemberVO member) {
+	public int join(MemberVO member) {
 		// 회원가입
-		map.put(member.getUserid(), member);
-		count++;
-		return member.getName() + "님 회원가입이 완료되었습니다.";
+		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class); 
+		
+		return mapper.insertMember(member);
 	}
 
 	@Override
@@ -134,6 +135,13 @@ public class MemberServiceImpl implements MemberService {
 			}
 		}
 		return tempCount;
+	}
+
+	@Override
+	public String existCheck(String userid) {
+		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
+		
+		return mapper.selectUserid(userid);
 	}
 
 
