@@ -4,8 +4,10 @@ select * from TEST;
 	private String password;
 	private String addr;
 	private int birth;
-	
+select * from member 
+       where userid= 'kim' and password = '1';	
 --실행 단축키 alt+x
+drop table member;
 SELECT * FROM member;
 	
 CREATE TABLE member(

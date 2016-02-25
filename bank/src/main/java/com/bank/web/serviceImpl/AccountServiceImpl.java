@@ -1,11 +1,17 @@
 package com.bank.web.serviceImpl;
 
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bank.web.domain.AccountVO;
+import com.bank.web.mapper.AccountMapper;
+import com.bank.web.mapper.MemberMapper;
 import com.bank.web.service.AccountService;
 @Service
 public class AccountServiceImpl implements AccountService {
+	@Autowired private SqlSession sqlSession;
+
 	int count;
 	AccountVO account = new AccountVO();
 
@@ -44,6 +50,14 @@ public class AccountServiceImpl implements AccountService {
 	public String search() {
 		// 4. 잔액조회
 		return account.toString();
+	}
+
+	public AccountVO getAccount(String userid) {
+		// TODO Auto-generated method stub4
+		AccountVO temp = new AccountVO();
+		AccountMapper mapper = sqlSession.getMapper(AccountMapper.class); 
+		temp = mapper.selectAccount(userid);
+		return temp;
 	}
 
 }

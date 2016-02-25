@@ -32,16 +32,20 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public MemberVO login(MemberVO member) {
-
+		MemberVO temp = new MemberVO();
 		if(sqlSession == null){
 			System.out.println("세션이 널값");
 		}else{
 			System.out.println("세션이 널값 아님");
 		}
 		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class); 
-		member= mapper.selectMember(member);
-		System.out.println("서비스단 " + member.getName());
-		return member;
+		System.out.println("서비스 아이디 파람값 : "+member.getUserid());
+		System.out.println("서비스 아이디 파람값 : "+member.getPassword());
+		temp = mapper.selectMember(member);
+		System.out.println("서비스단 결과값 아이디 " + temp.getUserid());
+		System.out.println("서비스단 결과값 이름 " + temp.getName());
+		
+		return temp;
 		/*String result = "로그인 실패";
 		// 메소드 체인 기법
 
@@ -51,12 +55,11 @@ public class MemberServiceImpl implements MemberService {
 		
 	}
 
-	public String update(MemberVO member) {
+	public int update(MemberVO member) {
 		// TODO Auto-generated method stub
-		searchById(member.getUserid());
-
-	//	map.replace(member.getUserid(), member);
-		return "업데이트 성공";
+		//	map.replace(member.getUserid(), member);
+		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
+		return mapper.update(member);
 
 		/*
 		 * for (int i = 0; i < members.length; i++) {
@@ -82,9 +85,8 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public MemberVO searchById(String id) {
-		// 아이디로 회원정보 검색
-
-		return map.get(id);
+		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class); 
+		return mapper.selectMemberById(id);
 
 	}
 
@@ -102,20 +104,12 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public String remove(String userid) {
+	public int remove(String userid) {
 		// 회원탈퇴
-		// AccountBean account = null;
-		// String closeResult = "";
-		// 이 라인에서 account 는 인스턴스 개념이 아니라
-		// 리턴을 받는 타입의 변수이다.
-		/*
-		 * if (this.searchById(userid) != null) { for (int i = 0; i <
-		 * this.getCount(); i++) { if (members[i].getUserid() == userid) {
-		 * members[i] = members[this.getCount() - 1]; members[this.getCount() -
-		 * 1] = null; } } count--; closeResult = userid + " 계정이 정상적으로 삭제되었습니다.";
-		 * } else { closeResult = "해당 아이디가 존재하지 않습니다."; }
-		 */
-		return map.remove(userid) != null ? "탈퇴성공" : "탈퇴실패";
+		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class); 
+		return mapper.deleteMember(userid);
+		
+		//return map.remove(userid) != null ? "탈퇴성공" : "탈퇴실패";
 	}
 
 	@Override
